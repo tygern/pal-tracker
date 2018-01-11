@@ -5,10 +5,10 @@ import io.pivotal.pal.tracker.PalTrackerApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,7 +36,7 @@ public class HealthApiTest {
 
     @Test
     public void healthTest() {
-        ResponseEntity<String> response = this.restTemplate.getForEntity("/health", String.class);
+        ResponseEntity<String> response = this.restTemplate.getForEntity("/actuator/health", String.class);
 
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -44,7 +44,7 @@ public class HealthApiTest {
         DocumentContext healthJson = parse(response.getBody());
 
         assertThat(healthJson.read("$.status", String.class)).isEqualTo("UP");
-        assertThat(healthJson.read("$.db.status", String.class)).isEqualTo("UP");
-        assertThat(healthJson.read("$.diskSpace.status", String.class)).isEqualTo("UP");
+        assertThat(healthJson.read("$.details.db.status", String.class)).isEqualTo("UP");
+        assertThat(healthJson.read("$.details.diskSpace.status", String.class)).isEqualTo("UP");
     }
 }

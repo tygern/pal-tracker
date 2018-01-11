@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeEntryHealthIndicator implements HealthIndicator {
 
-    private static final int MAX_TIME_ENTRIES = 5;
+    private static final int MAX_TIME_ENTRIES = 10;
     private final TimeEntryRepository timeEntryRepo;
 
     public TimeEntryHealthIndicator(TimeEntryRepository timeEntryRepo) {

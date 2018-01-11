@@ -1,12 +1,13 @@
 package test.pivotal.pal.tracker;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.MeterRegistry;
 import io.pivotal.pal.tracker.TimeEntry;
 import io.pivotal.pal.tracker.TimeEntryController;
 import io.pivotal.pal.tracker.TimeEntryRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.actuate.metrics.CounterService;
-import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,15 +23,22 @@ import static org.mockito.Mockito.*;
 public class TimeEntryControllerTest {
     private TimeEntryRepository timeEntryRepository;
     private TimeEntryController controller;
-    private CounterService counterService;
-    private GaugeService gaugeService;
 
     @Before
     public void setUp() throws Exception {
         timeEntryRepository = mock(TimeEntryRepository.class);
-        counterService = mock(CounterService.class);
-        gaugeService = mock(GaugeService.class);
-        controller = new TimeEntryController(timeEntryRepository, counterService, gaugeService);
+        MeterRegistry meterRegistry = mock(MeterRegistry.class);
+
+
+        doReturn(mock(DistributionSummary.class))
+            .when(meterRegistry)
+            .summary("timeEntries.count");
+
+        doReturn(mock(Counter.class))
+            .when(meterRegistry)
+            .counter("TimeEntry.action");
+
+        controller = new TimeEntryController(timeEntryRepository, meterRegistry);
     }
 
     @Test

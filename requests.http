@@ -1,0 +1,45 @@
+### Create timesheet
+POST http://localhost:8080/time-entries/
+Content-Type: application/json
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+{"projectId": 1, "userId": 2, "date": "2015-05-17", "hours": 6}
+
+### Get timesheets
+GET http://localhost:8080/time-entries?userId=2
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+GET http://localhost:8080/actuator/health
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+Accept: application/json
+
+###
+
+GET http://localhost:8080/actuator/status
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+Accept: application/json
+
+###
+
+GET http://localhost:8080/actuator/beans
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+Accept: application/json
+
+###
+
+GET http://localhost:8080/actuator/metrics/TimeEntry.listed
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+
+GET http://localhost:8080/actuator/metrics/TimeEntry.created
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+
+GET http://localhost:8080/actuator/prometheus
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+
